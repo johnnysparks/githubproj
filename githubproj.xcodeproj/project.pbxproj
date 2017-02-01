@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B201DF921E42753500A3BF99 /* ReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B201DF911E42753500A3BF99 /* ReposViewController.swift */; };
 		B27274701E380D96006BBFA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B272746F1E380D96006BBFA5 /* AppDelegate.swift */; };
-		B27274721E380D96006BBFA5 /* ReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27274711E380D96006BBFA5 /* ReposViewController.swift */; };
 		B27274771E380D96006BBFA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B27274761E380D96006BBFA5 /* Assets.xcassets */; };
 		B272747A1E380D96006BBFA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B27274781E380D96006BBFA5 /* LaunchScreen.storyboard */; };
 		B27274851E381667006BBFA5 /* ReSwiftRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27274821E381667006BBFA5 /* ReSwiftRouter.framework */; };
@@ -39,9 +39,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B201DF911E42753500A3BF99 /* ReposViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReposViewController.swift; path = ViewControllers/ReposViewController.swift; sourceTree = "<group>"; };
 		B272746C1E380D96006BBFA5 /* githubproj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = githubproj.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B272746F1E380D96006BBFA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B27274711E380D96006BBFA5 /* ReposViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReposViewController.swift; sourceTree = "<group>"; };
 		B27274761E380D96006BBFA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B27274791E380D96006BBFA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B272747B1E380D96006BBFA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -119,7 +119,7 @@
 		B27274901E383F8A006BBFA5 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				B27274711E380D96006BBFA5 /* ReposViewController.swift */,
+				B201DF911E42753500A3BF99 /* ReposViewController.swift */,
 				B27274941E384148006BBFA5 /* BaseViewController.swift */,
 			);
 			name = ViewControllers;
@@ -229,8 +229,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B27274951E384148006BBFA5 /* BaseViewController.swift in Sources */,
-				B27274721E380D96006BBFA5 /* ReposViewController.swift in Sources */,
 				B272748E1E383F5A006BBFA5 /* GitHubAPI.swift in Sources */,
+				B201DF921E42753500A3BF99 /* ReposViewController.swift in Sources */,
 				B27274701E380D96006BBFA5 /* AppDelegate.swift in Sources */,
 				B27274931E383FF8006BBFA5 /* AppState.swift in Sources */,
 			);
@@ -398,6 +398,7 @@
 				B27274801E380D96006BBFA5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
