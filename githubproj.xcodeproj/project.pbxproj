@@ -8,20 +8,49 @@
 
 /* Begin PBXBuildFile section */
 		B27274701E380D96006BBFA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B272746F1E380D96006BBFA5 /* AppDelegate.swift */; };
-		B27274721E380D96006BBFA5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27274711E380D96006BBFA5 /* ViewController.swift */; };
-		B27274751E380D96006BBFA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B27274731E380D96006BBFA5 /* Main.storyboard */; };
+		B27274721E380D96006BBFA5 /* ReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27274711E380D96006BBFA5 /* ReposViewController.swift */; };
 		B27274771E380D96006BBFA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B27274761E380D96006BBFA5 /* Assets.xcassets */; };
 		B272747A1E380D96006BBFA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B27274781E380D96006BBFA5 /* LaunchScreen.storyboard */; };
+		B27274851E381667006BBFA5 /* ReSwiftRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27274821E381667006BBFA5 /* ReSwiftRouter.framework */; };
+		B27274861E381667006BBFA5 /* ReSwiftRouter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27274821E381667006BBFA5 /* ReSwiftRouter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B27274871E381667006BBFA5 /* OAuthSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27274831E381667006BBFA5 /* OAuthSwift.framework */; };
+		B27274881E381667006BBFA5 /* OAuthSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27274831E381667006BBFA5 /* OAuthSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B27274891E381667006BBFA5 /* ReSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B27274841E381667006BBFA5 /* ReSwift.framework */; };
+		B272748A1E381667006BBFA5 /* ReSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B27274841E381667006BBFA5 /* ReSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B272748E1E383F5A006BBFA5 /* GitHubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B272748D1E383F5A006BBFA5 /* GitHubAPI.swift */; };
+		B27274931E383FF8006BBFA5 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27274921E383FF8006BBFA5 /* AppState.swift */; };
+		B27274951E384148006BBFA5 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27274941E384148006BBFA5 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B272748B1E381668006BBFA5 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B272748A1E381667006BBFA5 /* ReSwift.framework in Embed Frameworks */,
+				B27274881E381667006BBFA5 /* OAuthSwift.framework in Embed Frameworks */,
+				B27274861E381667006BBFA5 /* ReSwiftRouter.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		B272746C1E380D96006BBFA5 /* githubproj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = githubproj.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B272746F1E380D96006BBFA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B27274711E380D96006BBFA5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		B27274741E380D96006BBFA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B27274711E380D96006BBFA5 /* ReposViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReposViewController.swift; sourceTree = "<group>"; };
 		B27274761E380D96006BBFA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B27274791E380D96006BBFA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B272747B1E380D96006BBFA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B27274821E381667006BBFA5 /* ReSwiftRouter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReSwiftRouter.framework; path = Carthage/Build/iOS/ReSwiftRouter.framework; sourceTree = "<group>"; };
+		B27274831E381667006BBFA5 /* OAuthSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthSwift.framework; path = Carthage/Build/iOS/OAuthSwift.framework; sourceTree = "<group>"; };
+		B27274841E381667006BBFA5 /* ReSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReSwift.framework; path = Carthage/Build/iOS/ReSwift.framework; sourceTree = "<group>"; };
+		B272748D1E383F5A006BBFA5 /* GitHubAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GitHubAPI.swift; path = Services/GitHubAPI.swift; sourceTree = "<group>"; };
+		B27274921E383FF8006BBFA5 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppState.swift; path = State/AppState.swift; sourceTree = "<group>"; };
+		B27274941E384148006BBFA5 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = ViewControllers/BaseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +58,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B27274891E381667006BBFA5 /* ReSwift.framework in Frameworks */,
+				B27274871E381667006BBFA5 /* OAuthSwift.framework in Frameworks */,
+				B27274851E381667006BBFA5 /* ReSwiftRouter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +70,7 @@
 		B27274631E380D96006BBFA5 = {
 			isa = PBXGroup;
 			children = (
+				B272748C1E38166F006BBFA5 /* Carthage */,
 				B272746E1E380D96006BBFA5 /* githubproj */,
 				B272746D1E380D96006BBFA5 /* Products */,
 			);
@@ -55,13 +88,49 @@
 			isa = PBXGroup;
 			children = (
 				B272746F1E380D96006BBFA5 /* AppDelegate.swift */,
-				B27274711E380D96006BBFA5 /* ViewController.swift */,
-				B27274731E380D96006BBFA5 /* Main.storyboard */,
+				B27274911E383F9F006BBFA5 /* State */,
+				B27274901E383F8A006BBFA5 /* ViewControllers */,
+				B272748F1E383F7C006BBFA5 /* Services */,
 				B27274761E380D96006BBFA5 /* Assets.xcassets */,
 				B27274781E380D96006BBFA5 /* LaunchScreen.storyboard */,
 				B272747B1E380D96006BBFA5 /* Info.plist */,
 			);
 			path = githubproj;
+			sourceTree = "<group>";
+		};
+		B272748C1E38166F006BBFA5 /* Carthage */ = {
+			isa = PBXGroup;
+			children = (
+				B27274821E381667006BBFA5 /* ReSwiftRouter.framework */,
+				B27274831E381667006BBFA5 /* OAuthSwift.framework */,
+				B27274841E381667006BBFA5 /* ReSwift.framework */,
+			);
+			name = Carthage;
+			sourceTree = "<group>";
+		};
+		B272748F1E383F7C006BBFA5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B272748D1E383F5A006BBFA5 /* GitHubAPI.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		B27274901E383F8A006BBFA5 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B27274711E380D96006BBFA5 /* ReposViewController.swift */,
+				B27274941E384148006BBFA5 /* BaseViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B27274911E383F9F006BBFA5 /* State */ = {
+			isa = PBXGroup;
+			children = (
+				B27274921E383FF8006BBFA5 /* AppState.swift */,
+			);
+			name = State;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +143,8 @@
 				B27274681E380D96006BBFA5 /* Sources */,
 				B27274691E380D96006BBFA5 /* Frameworks */,
 				B272746A1E380D96006BBFA5 /* Resources */,
+				B27274811E380E3A006BBFA5 /* Carthage */,
+				B272748B1E381668006BBFA5 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,33 +197,48 @@
 			files = (
 				B272747A1E380D96006BBFA5 /* LaunchScreen.storyboard in Resources */,
 				B27274771E380D96006BBFA5 /* Assets.xcassets in Resources */,
-				B27274751E380D96006BBFA5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B27274811E380E3A006BBFA5 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/OAuthSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReSwiftRouter.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B27274681E380D96006BBFA5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B27274721E380D96006BBFA5 /* ViewController.swift in Sources */,
+				B27274951E384148006BBFA5 /* BaseViewController.swift in Sources */,
+				B27274721E380D96006BBFA5 /* ReposViewController.swift in Sources */,
+				B272748E1E383F5A006BBFA5 /* GitHubAPI.swift in Sources */,
 				B27274701E380D96006BBFA5 /* AppDelegate.swift in Sources */,
+				B27274931E383FF8006BBFA5 /* AppState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		B27274731E380D96006BBFA5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B27274741E380D96006BBFA5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		B27274781E380D96006BBFA5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -210,6 +296,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -252,6 +339,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -262,6 +350,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = R83MTNZF23;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = githubproj/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.beergramming.githubproj;
@@ -275,6 +367,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = R83MTNZF23;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = githubproj/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.beergramming.githubproj;
