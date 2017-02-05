@@ -24,7 +24,8 @@ class GithubAPI {
     
     enum RequestError: String, Error {
         case unauthorized = "Unauthorized"
-        case parseError = "ParseError"
+        case parse = "ParseError"
+        case invalidArgument = "Invalid Argument Error"
     }
     
     let key: String
@@ -91,17 +92,48 @@ class GithubAPI {
         UserDefaults.standard.removeObject(forKey: defaultsKey(forItem: "oauthToken"))
     }
     
-    func repos(done: @escaping ([GithubRepo]?, Error?)->()) {
-        
-        let _ = client?.request("https://api.github.com/user/repos",
-                                method: .GET,
-                                success: { (response) in
-            let repos = JSON(data: response.data).map { GithubRepo(json: $1) }
-            
-            done(repos, nil)
-        }) { (error) in
-            print(error)
-            done(nil, error)
+    func columns(project: GithubProject, _ done: @escaping ([GithubProjectColumn]?, Error?) -> ()) {
+        request("https://api.github.com/projects/\(project.id)/columns", method: .GET, params: nil) { (json, error) in
+            done(json?.map({ GithubProjectColumn(json: $1) }), error)
         }
     }
+    
+    func projects(repo: GithubRepo, _ done: @escaping ([GithubProject]?, Error?) -> ()) {
+        guard let url = repo.projectsURL else {
+            done(nil, RequestError.invalidArgument)
+            return
+        }
+        
+        request(url, method: .GET, params: nil) { (json, error) in
+            let projects = json?.map { GithubProject(json: $1) }
+            done(projects, error)
+        }
+    }
+    
+    func repos(_ done: @escaping ([GithubRepo]?, Error?)->()) {
+        request("https://api.github.com/user/repos", method: .GET, params: nil) { (json, error) in
+            let repos:[GithubRepo]? = json?.map({ GithubRepo(json: $1) })
+            done(repos, error)
+        }
+    }
+    
+    private func request(_ path: String,
+                         method: OAuthSwiftHTTPRequest.Method,
+                         params: OAuthSwift.Parameters?,
+                         done: @escaping (JSON?, Error?) -> ()) {
+        
+        let _ = client?.request(path,
+                                method: method,
+                                parameters: [:],
+                                headers: ["Accept":"application/vnd.github.inertia-preview+json"],
+                                success: { (response) in
+                                    done(JSON(data: response.data), nil)
+                                },
+                                failure: { (error) in
+                                    print(error)
+                                    done(nil, error)
+                                })
+    }
+    
+    
 }

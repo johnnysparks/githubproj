@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		B201DF921E42753500A3BF99 /* ReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B201DF911E42753500A3BF99 /* ReposViewController.swift */; };
+		B24EA8A91E46A83600721DAB /* Cells.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8A81E46A83600721DAB /* Cells.swift */; };
+		B24EA8AC1E46A92400721DAB /* GithubModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8AB1E46A92400721DAB /* GithubModels.swift */; };
+		B24EA8AE1E46A9A000721DAB /* GithubState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8AD1E46A9A000721DAB /* GithubState.swift */; };
+		B24EA8B01E46AA2900721DAB /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8AF1E46AA2900721DAB /* NavigationState.swift */; };
+		B24EA8B21E46AE7E00721DAB /* ProjectsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8B11E46AE7E00721DAB /* ProjectsListViewController.swift */; };
+		B24EA8B41E46B06A00721DAB /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8B31E46B06A00721DAB /* ListView.swift */; };
+		B24EA8B61E46B53D00721DAB /* ListItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8B51E46B53D00721DAB /* ListItems.swift */; };
+		B24EA8B81E46CDA300721DAB /* ProjectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8B71E46CDA300721DAB /* ProjectViewController.swift */; };
 		B27274701E380D96006BBFA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B272746F1E380D96006BBFA5 /* AppDelegate.swift */; };
 		B27274771E380D96006BBFA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B27274761E380D96006BBFA5 /* Assets.xcassets */; };
 		B272747A1E380D96006BBFA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B27274781E380D96006BBFA5 /* LaunchScreen.storyboard */; };
@@ -40,6 +48,14 @@
 
 /* Begin PBXFileReference section */
 		B201DF911E42753500A3BF99 /* ReposViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReposViewController.swift; path = ViewControllers/ReposViewController.swift; sourceTree = "<group>"; };
+		B24EA8A81E46A83600721DAB /* Cells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cells.swift; path = Views/Cells.swift; sourceTree = "<group>"; };
+		B24EA8AB1E46A92400721DAB /* GithubModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GithubModels.swift; path = Models/GithubModels.swift; sourceTree = "<group>"; };
+		B24EA8AD1E46A9A000721DAB /* GithubState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GithubState.swift; path = State/GithubState.swift; sourceTree = "<group>"; };
+		B24EA8AF1E46AA2900721DAB /* NavigationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationState.swift; path = State/NavigationState.swift; sourceTree = "<group>"; };
+		B24EA8B11E46AE7E00721DAB /* ProjectsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProjectsListViewController.swift; path = ViewControllers/ProjectsListViewController.swift; sourceTree = "<group>"; };
+		B24EA8B31E46B06A00721DAB /* ListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListView.swift; path = Views/ListView.swift; sourceTree = "<group>"; };
+		B24EA8B51E46B53D00721DAB /* ListItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListItems.swift; path = Models/ListItems.swift; sourceTree = "<group>"; };
+		B24EA8B71E46CDA300721DAB /* ProjectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProjectViewController.swift; path = ViewControllers/ProjectViewController.swift; sourceTree = "<group>"; };
 		B272746C1E380D96006BBFA5 /* githubproj.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = githubproj.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B272746F1E380D96006BBFA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B27274761E380D96006BBFA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -67,6 +83,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B24EA8A71E46A80D00721DAB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B24EA8A81E46A83600721DAB /* Cells.swift */,
+				B24EA8B31E46B06A00721DAB /* ListView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		B24EA8AA1E46A8F700721DAB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B24EA8AB1E46A92400721DAB /* GithubModels.swift */,
+				B24EA8B51E46B53D00721DAB /* ListItems.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		B27274631E380D96006BBFA5 = {
 			isa = PBXGroup;
 			children = (
@@ -88,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				B272746F1E380D96006BBFA5 /* AppDelegate.swift */,
+				B24EA8AA1E46A8F700721DAB /* Models */,
+				B24EA8A71E46A80D00721DAB /* Views */,
 				B27274911E383F9F006BBFA5 /* State */,
 				B27274901E383F8A006BBFA5 /* ViewControllers */,
 				B272748F1E383F7C006BBFA5 /* Services */,
@@ -120,6 +156,8 @@
 			isa = PBXGroup;
 			children = (
 				B201DF911E42753500A3BF99 /* ReposViewController.swift */,
+				B24EA8B11E46AE7E00721DAB /* ProjectsListViewController.swift */,
+				B24EA8B71E46CDA300721DAB /* ProjectViewController.swift */,
 				B27274941E384148006BBFA5 /* BaseViewController.swift */,
 			);
 			name = ViewControllers;
@@ -129,6 +167,8 @@
 			isa = PBXGroup;
 			children = (
 				B27274921E383FF8006BBFA5 /* AppState.swift */,
+				B24EA8AD1E46A9A000721DAB /* GithubState.swift */,
+				B24EA8AF1E46AA2900721DAB /* NavigationState.swift */,
 			);
 			name = State;
 			sourceTree = "<group>";
@@ -228,9 +268,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B24EA8B61E46B53D00721DAB /* ListItems.swift in Sources */,
+				B24EA8AE1E46A9A000721DAB /* GithubState.swift in Sources */,
+				B24EA8B01E46AA2900721DAB /* NavigationState.swift in Sources */,
+				B24EA8B81E46CDA300721DAB /* ProjectViewController.swift in Sources */,
 				B27274951E384148006BBFA5 /* BaseViewController.swift in Sources */,
+				B24EA8AC1E46A92400721DAB /* GithubModels.swift in Sources */,
+				B24EA8A91E46A83600721DAB /* Cells.swift in Sources */,
 				B272748E1E383F5A006BBFA5 /* GitHubAPI.swift in Sources */,
+				B24EA8B21E46AE7E00721DAB /* ProjectsListViewController.swift in Sources */,
 				B201DF921E42753500A3BF99 /* ReposViewController.swift in Sources */,
+				B24EA8B41E46B06A00721DAB /* ListView.swift in Sources */,
 				B27274701E380D96006BBFA5 /* AppDelegate.swift in Sources */,
 				B27274931E383FF8006BBFA5 /* AppState.swift in Sources */,
 			);

@@ -10,7 +10,7 @@ import UIKit
 import OAuthSwift
 import ReSwift
 
-let store = Store<AppState>(reducer:AppReducer(), state: nil)
+let store = Store<AppState>(reducer: AppReducer(), state: nil)
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,8 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = ReposViewController()
+        window?.rootViewController = store.state.navigation.router.nav
         window?.makeKeyAndVisible()
+        
         return true
     }
     
