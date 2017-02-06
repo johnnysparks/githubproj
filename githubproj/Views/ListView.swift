@@ -9,7 +9,14 @@
 import Foundation
 import UIKit
 
-class ListView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
+class ListView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    enum Orientation {
+        case vertical
+        case horizontal
+    }
+    
+    var orientation: Orientation = .vertical
     
     var items: [ListItem] = [] {
         didSet {
@@ -31,8 +38,6 @@ class ListView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
         collection.register(ProjectCell.self, forCellWithReuseIdentifier: ProjectCell.reuseId)
         collection.register(ProjectColumnCell.self, forCellWithReuseIdentifier: ProjectColumnCell.reuseId)
         collection.register(ProjectCardCell.self, forCellWithReuseIdentifier: ProjectCardCell.reuseId)
-        
-        (collection.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = CGSize(width: 300, height: 50)
         
         addSubview(collection)
     }
@@ -92,6 +97,11 @@ class ListView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = items[indexPath.row]
         item.touchHandler?()
+    }
+    
+    // MARK - UICollectionViewDelegateFlowLayout
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 300, height: 50)
     }
     
     override func layoutSubviews() {
