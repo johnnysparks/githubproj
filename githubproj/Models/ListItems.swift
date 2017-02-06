@@ -51,29 +51,60 @@ struct RepoListItem: ListItem {
 }
 
 struct ProjectListItem: ListItem {
+    
+    let repo: GithubRepo
     let project: GithubProject
     
     var touchHandler: (() -> ())?
     var displayHandler: (() -> ())?
     
-    init(project: GithubProject) {
+    init(repo: GithubRepo, project: GithubProject) {
+        self.repo = repo
         self.project = project
         
         touchHandler = {
             let vc = ProjectViewController()
-            vc.project = project
+            vc.set(repo: repo, project: project)
             store.fire(PushNavigationAction(vc: vc))
         }
     }
 }
 
 struct ProjectColumnListItem: ListItem {
+    let repo: GithubRepo
+    let project: GithubProject
     let column: GithubProjectColumn
     
     var touchHandler: (() -> ())?
     var displayHandler: (() -> ())?
     
-    init(column: GithubProjectColumn) {
+    init(repo: GithubRepo, project: GithubProject, column: GithubProjectColumn) {
+        self.repo = repo
+        self.project = project
         self.column = column
+        
+        touchHandler = {
+            let vc = ProjectCardsViewController()
+            vc.set(repo: repo, project: project, column: column)
+            store.fire(PushNavigationAction(vc: vc))
+        }
     }
+}
+
+struct ProjectCardListItem: ListItem {
+    let repo: GithubRepo
+    let project: GithubProject
+    let column: GithubProjectColumn
+    let card: GithubProjectCard
+    
+    var touchHandler: (() -> ())?
+    var displayHandler: (() -> ())?
+    
+    init(repo: GithubRepo, project: GithubProject, column: GithubProjectColumn, card: GithubProjectCard) {
+        self.repo = repo
+        self.project = project
+        self.column = column
+        self.card = card
+    }
+    
 }

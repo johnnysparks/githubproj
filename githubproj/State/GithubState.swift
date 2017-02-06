@@ -9,41 +9,157 @@
 import Foundation
 import ReSwift
 
+enum LoadingState {
+    case refreshing
+    case loading
+    case ready
+    case done
+}
+
 enum SortDirection {
-    case asc, desc
+    case asc, desc, natural
+}
+
+
+struct RepoListState: StateType {
+    var loading: LoadingState = .ready
+    var projectLists: [String: ProjectListState] = [:]
+    var sort: SortDirection = .natural
+    var repos: [GithubRepo] = []
+    var items: [ListItem] {
+        var o: [ListItem] = []
+        
+        if loading == .refreshing {
+            o.append(LoadingListItem())
+        }
+        let sortedRepos = sort == .natural ? repos : repos.sorted() {
+            guard let a = $0.name, let b = $1.name else { return false }
+            return sort == .asc ? a < b : a > b;
+        }
+        sortedRepos.forEach { (repo) in
+            // Only include projects that are loading/ready or done w/ > 0
+            var keep = true
+            var message = "Waiting..."
+            if let projectList = projectLists[repo.id] {
+                if projectList.loading == .loading {
+                    message = "Loading..."
+                } else if projectList.loading == .done {
+                    if projectList.projects.count == 0 {
+                        keep = false
+                    } else {
+                        message = "\(projectList.projects.count) projects"
+                    }
+                }
+            }
+            if keep {
+                o.append(RepoListItem(repo: repo, message: message))
+            }
+        }
+        
+        if [.ready, .loading].contains(loading) {
+            o.append(LoadingListItem())
+        }
+        
+        return o
+    }
+}
+
+
+struct ProjectListState: StateType {
+    let repo: GithubRepo
+    var loading: LoadingState = .ready
+    var columnLists: [String: ProjectColumnsListState] = [:]
+    var projects: [GithubProject] = []
+    var items: [ListItem] {
+        var o: [ListItem] = []
+        if loading == .refreshing {
+            o.append(LoadingListItem())
+        }
+        o += projects.map { ProjectListItem(repo: repo, project: $0) } as [ListItem]
+        if [.ready, .loading].contains(loading) {
+            o.append(LoadingListItem())
+        }
+        return o
+    }
+    
+    init(repo: GithubRepo) {
+        self.repo = repo
+    }
+}
+
+struct ProjectColumnsListState: StateType {
+    let repo: GithubRepo
+    let project: GithubProject
+    var loading: LoadingState = .ready
+    var cardLists: [String: ProjectCardsListState] = [:]
+    var columns: [GithubProjectColumn] = []
+    var items: [ListItem] {
+        var o: [ListItem] = []
+        if loading == .refreshing {
+            o.append(LoadingListItem())
+        }
+        o += columns.map { ProjectColumnListItem(repo: repo, project: project, column: $0) } as [ListItem]
+        if [.ready, .loading].contains(loading) {
+            o.append(LoadingListItem())
+        }
+        return o
+    }
+    init(repo: GithubRepo, project: GithubProject) {
+        self.repo = repo
+        self.project = project
+    }
+}
+
+struct ProjectCardsListState: StateType {
+    let repo: GithubRepo
+    let project: GithubProject
+    let column: GithubProjectColumn
+    var loading: LoadingState = .ready
+    var cards: [GithubProjectCard] = []
+    var items: [ListItem] {
+        var o: [ListItem] = []
+        if loading == .refreshing {
+            o.append(LoadingListItem())
+        }
+        o += cards.map { ProjectCardListItem(repo: repo, project: project, column: column, card: $0) } as [ListItem]
+        if [.ready, .loading].contains(loading) {
+            o.append(LoadingListItem())
+        }
+        return o
+    }
+    init(repo: GithubRepo, project: GithubProject, column: GithubProjectColumn) {
+        self.repo = repo
+        self.project = project
+        self.column = column
+    }
 }
 
 // MARK - State
 struct GithubState: StateType {
     
-    var loadingRepoProjects: [GithubRepo] = []
-    var repoProjects: [String: [GithubProject]] = [:]
-    var repoProjectFeeds: [String: [ProjectListItem]] = [:]
-    var projectColumns: [String: [GithubProjectColumn]] = [:]
-    
-    var loadingRepos = false
-    var repoSortDirection: SortDirection?
-    var repos: [GithubRepo] = []
-    var repoFeed: [ListItem] = [EmptyListItem()]
+    var repoList = RepoListState()
     
     // Helper Methods
     func shouldLoadProjectsFor(repo: GithubRepo) -> Bool {
-        let queueEmpty = loadingRepoProjects.count < 2
-        let notLoaded = repoProjects[repo.id] == nil
-        let notLoading = !loadingRepoProjects.contains(repo)
-        return queueEmpty && notLoaded && notLoading
+        let queueEmpty = repoList.projectLists.filter({ $0.value.loading == .loading }).count < 2
+        let readyToLoad = (repoList.projectLists[repo.id]?.loading ?? .loading) == .ready
+        return queueEmpty && readyToLoad
     }
     
     func shouldLoadRepos() -> Bool {
-        return repos.count == 0 && !loadingRepos
+        return repoList.loading == .ready
     }
     
     func projectsListFor(repo: GithubRepo) -> [ListItem] {
-        return (repoProjects[repo.id] ?? []).map { ProjectListItem(project: $0) }
+        return repoList.projectLists[repo.id]!.items
     }
     
-    func columnsListFor(project: GithubProject) -> [ListItem] {
-        return (projectColumns[project.id] ?? []).map { ProjectColumnListItem(column: $0) }
+    func columnsListFor(repo: GithubRepo, project: GithubProject) -> [ListItem] {
+        return repoList.projectLists[repo.id]?.columnLists[project.id]?.items ?? []
+    }
+    
+    func cardListFor(repo: GithubRepo, project: GithubProject, column: GithubProjectColumn) -> [ListItem] {
+        return repoList.projectLists[repo.id]?.columnLists[project.id]?.cardLists[column.id]?.items ?? []
     }
 }
 
@@ -52,68 +168,57 @@ struct GithubState: StateType {
 func githubReducer(action: Action, state: GithubState?) -> GithubState {
     var state = state ?? GithubState()
     
-    func repoFeedItems() -> [RepoListItem] {
-        // Create the starting list
-        var items: [RepoListItem] = []
-        
-        // Sort the repos
-        let sortedRepos = state.repos.sorted {
-            guard let a = $0.name, let b = $1.name else {
-                return false
-            }
-            return state.repoSortDirection == .asc ? a < b : a > b;
-        }
-        
-        // Add a repo item for each repo with loaded projects
-        for repo in sortedRepos {
-            if state.loadingRepoProjects.contains(repo) {
-                items.append(RepoListItem(repo: repo, message: "Loading ..."))
-            } else if let projects = state.repoProjects[repo.id] {
-                if projects.count > 0 {
-                    items.append(RepoListItem(repo: repo, message: "\(projects.count) projects"))
-                }
-            } else {
-                items.append(RepoListItem(repo: repo, message: "Waiting..."))
-            }
-        }
-        
-        return items
-    }
-    
     switch action {
     case _ as RefreshReposAction:
-        state.loadingRepos = true
-        state.repos = []
-        state.repoFeed.insert(LoadingListItem(), at: 0)
+        state.repoList.loading = .refreshing
         
     case _ as LoadReposAction:
-        state.loadingRepos = true
-        state.repoFeed = repoFeedItems()
-        state.repoFeed.append(LoadingListItem())
+        state.repoList.loading = .loading
         
     case let action as ReposLoadedAction:
-        state.loadingRepos = false
-        state.repos = action.repos
-        state.repoFeed = repoFeedItems()
+        state.repoList.loading = .done
+        state.repoList.repos = action.repos
+        action.repos.forEach {
+            state.repoList.projectLists[$0.id] = ProjectListState(repo: $0)
+        }
         
     case let action as ReposSortAction:
-        state.repoSortDirection = action.direction
-        state.repoFeed = repoFeedItems()
+        state.repoList.sort = action.direction
         
     case let action as LoadProjectsAction:
-        state.loadingRepoProjects.append(action.repo)
-        state.repoFeed = repoFeedItems()
+        var list = state.repoList.projectLists[action.repo.id] ?? ProjectListState(repo: action.repo)
+        list.loading = .loading
+        state.repoList.projectLists[action.repo.id] = list
         
     case let action as ProjectsLoadedAction:
-        if let idx = state.loadingRepoProjects.index(of: action.repo) {
-            state.loadingRepoProjects.remove(at: idx)
-        }
-        state.repoProjects[action.repo.id] = action.projects
-        state.repoFeed = repoFeedItems()
+        var list = state.repoList.projectLists[action.repo.id] ?? ProjectListState(repo: action.repo)
+        list.projects = action.projects
+        list.loading = .done
+        state.repoList.projectLists[action.repo.id] = list
     
+    case let action as LoadProjectColumnsAction:
+        var list = state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id] ?? ProjectColumnsListState(repo: action.repo, project: action.project)
+        list.loading = .loading
+        state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id] = list
+        
     case let action as ProjectColumnsLoadedAction:
-        state.projectColumns[action.project.id] = action.columns
+        var list = state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id] ?? ProjectColumnsListState(repo: action.repo, project: action.project)
+
+        list.columns = action.columns
+        list.loading = .done
+        state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id] = list
     
+    case let action as LoadCardsAction:
+        var list = state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id]?.cardLists[action.column.id] ?? ProjectCardsListState(repo: action.repo, project: action.project, column: action.column)
+        list.loading = .loading
+        state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id]?.cardLists[action.column.id] = list
+        
+    case let action as CardsLoadedAction:
+        var list = state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id]?.cardLists[action.column.id] ?? ProjectCardsListState(repo: action.repo, project: action.project, column: action.column)
+        list.cards = action.cards
+        list.loading = .done
+        state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id]?.cardLists[action.column.id] = list
+        
     default: break
     }
     return state
@@ -170,21 +275,49 @@ struct ProjectsLoadedAction: Action {
     let projects: [GithubProject]
 }
 
+// MARK - Project / Columns
 struct LoadProjectColumnsAction: Action {
+    let repo: GithubRepo
     let project: GithubProject
-    init(project: GithubProject) {
+    init(repo: GithubRepo, project: GithubProject) {
+        self.repo = repo
         self.project = project
         GithubAPI.shared.columns(project: project) { (columns, error) in
             if let columns = columns {
-                store.dispatch(ProjectColumnsLoadedAction(project: project, columns: columns))
+                store.dispatch(ProjectColumnsLoadedAction(repo: repo, project: project, columns: columns))
             }
         }
     }
 }
 
 struct ProjectColumnsLoadedAction: Action {
+    let repo: GithubRepo
     let project: GithubProject
     let columns: [GithubProjectColumn]
 }
 
+
+// MARK - Project / Column / Cards
+struct LoadCardsAction: Action {
+    let repo: GithubRepo
+    let project: GithubProject
+    let column: GithubProjectColumn
+    init(repo: GithubRepo, project: GithubProject, column: GithubProjectColumn) {
+        self.repo = repo
+        self.project = project
+        self.column = column
+        GithubAPI.shared.cards(column: column) { (cards, error) in
+            if let cards = cards {
+                store.dispatch(CardsLoadedAction(repo: repo, project: project, column: column, cards: cards))
+            }
+        }
+    }
+}
+
+struct CardsLoadedAction: Action {
+    let repo: GithubRepo
+    let project: GithubProject
+    let column: GithubProjectColumn
+    let cards: [GithubProjectCard]
+}
 

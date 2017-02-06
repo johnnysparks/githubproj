@@ -9,6 +9,20 @@
 import Foundation
 import SwiftyJSON
 
+struct GithubProjectCard: Equatable {
+    let id: String
+    let note: String
+    
+    init(json: JSON) {
+        id = json["id"].stringValue
+        note = json["note"].stringValue
+    }
+}
+
+func ==(lhs: GithubProjectCard, rhs: GithubProjectCard) -> Bool {
+    return lhs.id == rhs.id
+}
+
 struct GithubProjectColumn: Equatable {
     let id: String
     let name: String
@@ -69,15 +83,6 @@ struct GithubRepo: Equatable {
     var projectsURL: String? {
         guard let username = owner?.name, let repoName = name else { return nil }
         return "https://api.github.com/repos/\(username)/\(repoName)/projects"
-    }
-    
-    var message: String {
-        if store.state.github.loadingRepoProjects.contains(self) {
-            return "Loading ..."
-        } else if let projects = store.state.github.repoProjects[id] {
-            return "\(projects.count) projects"
-        }
-        return "Waiting..."
     }
     
     init(json: JSON) {

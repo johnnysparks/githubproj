@@ -30,6 +30,7 @@ class ListView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
         collection.register(LoadingCell.self, forCellWithReuseIdentifier: LoadingCell.reuseId)
         collection.register(ProjectCell.self, forCellWithReuseIdentifier: ProjectCell.reuseId)
         collection.register(ProjectColumnCell.self, forCellWithReuseIdentifier: ProjectColumnCell.reuseId)
+        collection.register(ProjectCardCell.self, forCellWithReuseIdentifier: ProjectCardCell.reuseId)
         
         (collection.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = CGSize(width: 300, height: 50)
         
@@ -48,6 +49,11 @@ class ListView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
         let item = items[indexPath.row]
         
         switch item {
+            
+        case let item as ProjectCardListItem:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProjectCardCell.reuseId, for: indexPath) as! ProjectCardCell
+            cell.card = item.card
+            return cell
             
         case let item as ProjectColumnListItem:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProjectColumnCell.reuseId, for: indexPath) as! ProjectColumnCell
@@ -80,7 +86,6 @@ class ListView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let item = items[indexPath.row]
-
         item.displayHandler?()
     }
     

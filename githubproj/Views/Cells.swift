@@ -113,3 +113,26 @@ class ProjectColumnCell: CollectionViewCell {
         label.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.5)
     }
 }
+
+class ProjectCardCell: CollectionViewCell {
+    
+    let label = UILabel()
+    var card: GithubProjectCard? {
+        didSet {
+            label.text = card?.note
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        label.textColor = UIColor.white
+        contentView.addSubview(label)
+    }
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = bounds
+        label.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height * 0.5)
+    }
+}

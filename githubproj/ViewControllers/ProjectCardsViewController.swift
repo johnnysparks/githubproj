@@ -1,25 +1,27 @@
 //
-//  ProjectViewController.swift
+//  ProjectCardsViewController.swift
 //  githubproj
 //
-//  Created by John Sparks on 2/4/17.
+//  Created by John Sparks on 2/5/17.
 //  Copyright © 2017 beergramming. All rights reserved.
 //
 
 import Foundation
 
 
-class ProjectViewController: BaseViewController {
+class ProjectCardsViewController: BaseViewController {
     
     let listView = ListView()
     
     var repo: GithubRepo?
     var project: GithubProject?
-        
-    func set(repo: GithubRepo, project: GithubProject) {
+    var column: GithubProjectColumn?
+    
+    func set(repo: GithubRepo, project: GithubProject, column: GithubProjectColumn) {
         self.repo = repo
         self.project = project
-        store.dispatch(LoadProjectColumnsAction(repo: repo, project: project))
+        self.column = column
+        store.dispatch(LoadCardsAction(repo: repo, project: project, column: column))
     }
     
     override func viewDidLoad() {
@@ -28,8 +30,8 @@ class ProjectViewController: BaseViewController {
     }
     
     override func newState(state: AppState) {
-        if let repo = repo, let project = project {
-            listView.items = state.github.columnsListFor(repo: repo, project: project)
+        if let repo = repo, let project = project, let column = column {
+            listView.items = state.github.cardListFor(repo: repo, project: project, column: column)
         }
     }
     

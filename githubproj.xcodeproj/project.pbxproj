@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B201DF921E42753500A3BF99 /* ReposViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B201DF911E42753500A3BF99 /* ReposViewController.swift */; };
+		B24C0CA71E47E5C300BE7D5D /* ProjectCardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24C0CA61E47E5C300BE7D5D /* ProjectCardsViewController.swift */; };
 		B24EA8A91E46A83600721DAB /* Cells.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8A81E46A83600721DAB /* Cells.swift */; };
 		B24EA8AC1E46A92400721DAB /* GithubModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8AB1E46A92400721DAB /* GithubModels.swift */; };
 		B24EA8AE1E46A9A000721DAB /* GithubState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24EA8AD1E46A9A000721DAB /* GithubState.swift */; };
@@ -48,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		B201DF911E42753500A3BF99 /* ReposViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReposViewController.swift; path = ViewControllers/ReposViewController.swift; sourceTree = "<group>"; };
+		B24C0CA61E47E5C300BE7D5D /* ProjectCardsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProjectCardsViewController.swift; path = ViewControllers/ProjectCardsViewController.swift; sourceTree = "<group>"; };
 		B24EA8A81E46A83600721DAB /* Cells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cells.swift; path = Views/Cells.swift; sourceTree = "<group>"; };
 		B24EA8AB1E46A92400721DAB /* GithubModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GithubModels.swift; path = Models/GithubModels.swift; sourceTree = "<group>"; };
 		B24EA8AD1E46A9A000721DAB /* GithubState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GithubState.swift; path = State/GithubState.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				B201DF911E42753500A3BF99 /* ReposViewController.swift */,
 				B24EA8B11E46AE7E00721DAB /* ProjectsListViewController.swift */,
 				B24EA8B71E46CDA300721DAB /* ProjectViewController.swift */,
+				B24C0CA61E47E5C300BE7D5D /* ProjectCardsViewController.swift */,
 				B27274941E384148006BBFA5 /* BaseViewController.swift */,
 			);
 			name = ViewControllers;
@@ -270,6 +273,7 @@
 			files = (
 				B24EA8B61E46B53D00721DAB /* ListItems.swift in Sources */,
 				B24EA8AE1E46A9A000721DAB /* GithubState.swift in Sources */,
+				B24C0CA71E47E5C300BE7D5D /* ProjectCardsViewController.swift in Sources */,
 				B24EA8B01E46AA2900721DAB /* NavigationState.swift in Sources */,
 				B24EA8B81E46CDA300721DAB /* ProjectViewController.swift in Sources */,
 				B27274951E384148006BBFA5 /* BaseViewController.swift in Sources */,

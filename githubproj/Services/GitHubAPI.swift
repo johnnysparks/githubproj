@@ -92,6 +92,12 @@ class GithubAPI {
         UserDefaults.standard.removeObject(forKey: defaultsKey(forItem: "oauthToken"))
     }
     
+    func cards(column: GithubProjectColumn, _ done: @escaping ([GithubProjectCard]?, Error?) -> ()) {
+        request("https://api.github.com/projects/columns/\(column.id)/cards", method: .GET, params: nil) { (json, error) in
+            done(json?.map({ GithubProjectCard(json: $1) }), error)
+        }
+    }
+    
     func columns(project: GithubProject, _ done: @escaping ([GithubProjectColumn]?, Error?) -> ()) {
         request("https://api.github.com/projects/\(project.id)/columns", method: .GET, params: nil) { (json, error) in
             done(json?.map({ GithubProjectColumn(json: $1) }), error)

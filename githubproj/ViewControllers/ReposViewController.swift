@@ -24,7 +24,7 @@ class ReposViewController: BaseViewController {
     }
     
     override func newState(state: AppState) {
-        reposView.state = state.github
+        reposView.reposList.items = state.github.repoList.items
     }
     
     override func viewWillLayoutSubviews() {
@@ -39,7 +39,7 @@ class ReposView: UIView {
     let sortControlTopMargin: CGFloat = 20.0
     let sortControlHeight: CGFloat = 44.0
     let sortControl = UISegmentedControl(items: ["☝️", "👇"])
-    let projectList = ListView()
+    let reposList = ListView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,7 +47,7 @@ class ReposView: UIView {
         sortControl.tintColor = UIColor.yellow
         sortControl.addTarget(self, action: #selector(ReposView.changedSort), for: .valueChanged)
         
-        addSubview(projectList)
+        addSubview(reposList)
         addSubview(sortControl)
         
     }
@@ -58,16 +58,10 @@ class ReposView: UIView {
         store.dispatch(ReposSortAction(direction: sortControl.selectedSegmentIndex == 0 ? .desc : .asc))
     }
     
-    var state: GithubState = GithubState() {
-        didSet {
-            projectList.items = state.repoFeed
-        }
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         sortControl.frame = CGRect(x: 0, y: sortControlTopMargin, width: bounds.width, height: sortControlHeight)
-        projectList.frame = CGRect(x: 0, y: sortControl.frame.maxY, width: bounds.width, height: bounds.height - sortControl.frame.maxY)
+        reposList.frame = CGRect(x: 0, y: sortControl.frame.maxY, width: bounds.width, height: bounds.height - sortControl.frame.maxY)
     }
 }
 
