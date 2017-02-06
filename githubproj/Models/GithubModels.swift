@@ -9,21 +9,60 @@
 import Foundation
 import SwiftyJSON
 
-struct GithubProjectCard: Equatable {
+// MARK - GithubIssue
+struct GithubIssue {
+    let id: String
+    let number: UInt
+    let state: String
+    let title: String
+    let body: String?
+    
+    init(json: JSON) {
+        id = json["id"].stringValue
+        number = json["number"].uIntValue
+        state = json["state"].stringValue
+        title = json["title"].stringValue
+        body = json["body"].string
+    }
+}
+
+extension GithubIssue: Equatable { }
+
+func ==(lhs: GithubIssue, rhs: GithubIssue) -> Bool {
+    return lhs.id == rhs.id
+}
+
+extension GithubIssue: Hashable {
+    var hashValue: Int { return id.hash }
+}
+
+
+// MARK - GithubProjectCard
+struct GithubProjectCard {
     let id: String
     let note: String
+    let issueUrl: String?
     
     init(json: JSON) {
         id = json["id"].stringValue
         note = json["note"].stringValue
+        issueUrl = json["content_url"].string
     }
 }
+
+extension GithubProjectCard: Equatable { }
 
 func ==(lhs: GithubProjectCard, rhs: GithubProjectCard) -> Bool {
     return lhs.id == rhs.id
 }
 
-struct GithubProjectColumn: Equatable {
+extension GithubProjectCard: Hashable {
+    var hashValue: Int { return id.hash }
+}
+
+
+// MARK - GithubProjectColumn
+struct GithubProjectColumn {
     let id: String
     let name: String
     
@@ -32,13 +71,20 @@ struct GithubProjectColumn: Equatable {
         name = json["name"].stringValue
     }
 }
+
+extension GithubProjectColumn: Equatable { }
 
 func ==(lhs: GithubProjectColumn, rhs: GithubProjectColumn) -> Bool {
     return lhs.id == rhs.id
 }
 
+extension GithubProjectColumn: Hashable {
+    var hashValue: Int { return id.hash }
+}
+
+
 // MARK - GithubProject
-struct GithubProject: Equatable {
+struct GithubProject {
     let id: String
     let name: String
     
@@ -48,13 +94,19 @@ struct GithubProject: Equatable {
     }
 }
 
+extension GithubProject: Equatable { }
+
 func ==(lhs: GithubProject, rhs: GithubProject) -> Bool {
     return lhs.id == rhs.id
 }
 
+extension GithubProject: Hashable {
+    var hashValue: Int { return id.hash }
+}
+
 
 // MARK - GithubUser
-struct GithubUser: Equatable {
+struct GithubUser {
     let name: String?
     let id: String
     let url: String?
@@ -69,13 +121,19 @@ struct GithubUser: Equatable {
     }
 }
 
+extension GithubUser: Equatable { }
+
 func ==(lhs: GithubUser, rhs: GithubUser) -> Bool {
     return lhs.id == rhs.id
 }
 
+extension GithubUser: Hashable {
+    var hashValue: Int { return id.hash }
+}
+
 
 // MARK - GithubRepo
-struct GithubRepo: Equatable {
+struct GithubRepo {
     let name: String?
     let id: String
     let owner: GithubUser?
@@ -92,7 +150,13 @@ struct GithubRepo: Equatable {
     }
 }
 
+extension GithubRepo: Equatable { }
+
 func ==(lhs: GithubRepo, rhs: GithubRepo) -> Bool {
     return lhs.id == rhs.id
+}
+
+extension GithubRepo: Hashable {
+    var hashValue: Int { return id.hash }
 }
 

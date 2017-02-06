@@ -139,15 +139,26 @@ struct GithubState: StateType {
     
     var repoList = RepoListState()
     
+    var projectRequests: Set<GithubRepo> = Set()
+    var cardRequests: Set<GithubProjectCard> = Set()
+    var cardIssues: [GithubProjectCard: GithubIssue] = [:]
+    
     // Helper Methods
     func shouldLoadProjectsFor(repo: GithubRepo) -> Bool {
-        let queueEmpty = repoList.projectLists.filter({ $0.value.loading == .loading }).count < 2
+        let queueEmpty = projectRequests.count < 2
         let readyToLoad = (repoList.projectLists[repo.id]?.loading ?? .loading) == .ready
         return queueEmpty && readyToLoad
     }
     
     func shouldLoadRepos() -> Bool {
         return repoList.loading == .ready
+    }
+    
+    func shouldLoad(card: GithubProjectCard) -> Bool {
+        let queueEmpty = cardRequests.count < 2
+        let readyToLoad = !cardRequests.contains(card)
+        let hasIssue = card.issueUrl != nil
+        return queueEmpty && readyToLoad && hasIssue
     }
     
     func projectsListFor(repo: GithubRepo) -> [ListItem] {
@@ -189,12 +200,14 @@ func githubReducer(action: Action, state: GithubState?) -> GithubState {
         var list = state.repoList.projectLists[action.repo.id] ?? ProjectListState(repo: action.repo)
         list.loading = .loading
         state.repoList.projectLists[action.repo.id] = list
+        state.projectRequests.insert(action.repo)
         
     case let action as ProjectsLoadedAction:
         var list = state.repoList.projectLists[action.repo.id] ?? ProjectListState(repo: action.repo)
         list.projects = action.projects
         list.loading = .done
         state.repoList.projectLists[action.repo.id] = list
+        state.projectRequests.remove(action.repo)
     
     case let action as LoadProjectColumnsAction:
         var list = state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id] ?? ProjectColumnsListState(repo: action.repo, project: action.project)
@@ -218,6 +231,13 @@ func githubReducer(action: Action, state: GithubState?) -> GithubState {
         list.cards = action.cards
         list.loading = .done
         state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id]?.cardLists[action.column.id] = list
+
+    case let action as LoadCardIssueAction:
+        state.cardRequests.insert(action.card)
+
+    case let action as CardIssueLoadedAction:
+        state.cardRequests.remove(action.card)
+        state.cardIssues[action.card] = action.issue
         
     default: break
     }
@@ -321,3 +341,21 @@ struct CardsLoadedAction: Action {
     let cards: [GithubProjectCard]
 }
 
+// MARK -- Project / Column / Card / Issues
+struct LoadCardIssueAction: Action {
+    let card: GithubProjectCard
+    
+    init(card: GithubProjectCard) {
+        self.card = card
+        GithubAPI.shared.issue(forCard: card) { (issue, error) in
+            if let issue = issue {
+                store.dispatch(CardIssueLoadedAction(card: card, issue: issue))
+            }
+        }
+    }
+}
+
+struct CardIssueLoadedAction: Action {
+    let card: GithubProjectCard
+    let issue: GithubIssue
+}

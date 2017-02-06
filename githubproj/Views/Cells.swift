@@ -119,7 +119,18 @@ class ProjectCardCell: CollectionViewCell {
     let label = UILabel()
     var card: GithubProjectCard? {
         didSet {
-            label.text = card?.note
+            guard let card = card else {
+                label.text = "..."
+                return
+            }
+            if let issue = store.state.github.cardIssues[card] {
+                label.text = issue.title
+            }
+            else if store.state.github.cardRequests.contains(card) {
+                label.text = "Loading..."
+            } else {
+                label.text = card.note
+            }
         }
     }
     

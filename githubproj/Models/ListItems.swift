@@ -105,6 +105,12 @@ struct ProjectCardListItem: ListItem {
         self.project = project
         self.column = column
         self.card = card
+        
+        displayHandler = {
+            if store.state.github.shouldLoad(card: card) {
+                store.fire(LoadCardIssueAction(card: card))
+            }
+        }
     }
     
 }
