@@ -14,9 +14,7 @@ class BaseViewController: UIViewController, StoreSubscriber {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let back = UISwipeGestureRecognizer(target: self, action: #selector(BaseViewController.swipeBack))
-        back.direction = .right
-        view.addGestureRecognizer(back)
+        automaticallyAdjustsScrollViewInsets = false
     }
     
     func swipeBack() {

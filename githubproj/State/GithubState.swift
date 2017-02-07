@@ -134,14 +134,26 @@ struct ProjectCardsListState: StateType {
     }
 }
 
+enum ProjectColumnViewState {
+    case normal
+    case reorder
+}
+
 // MARK - State
 struct GithubState: StateType {
     
+    // Root Model
     var repoList = RepoListState()
-    
-    var projectRequests: Set<GithubRepo> = Set()
-    var cardRequests: Set<GithubProjectCard> = Set()
     var cardIssues: [GithubProjectCard: GithubIssue] = [:]
+    var cardColumns: [GithubProjectCard: String] = [:]
+    
+    // Request queues
+    var projectRequests: Set<GithubRepo> = Set()
+    var columnCardRequests: Set<GithubProjectColumn> = Set()
+    var cardRequests: Set<GithubProjectCard> = Set()
+    
+    // Layout
+    var projectColumnState: ProjectColumnViewState = .normal
     
     // Helper Methods
     func shouldLoadProjectsFor(repo: GithubRepo) -> Bool {
@@ -154,11 +166,18 @@ struct GithubState: StateType {
         return repoList.loading == .ready
     }
     
+    func shouldLoad(cardsFor column: GithubProjectColumn, project: GithubProject, repo: GithubRepo) -> Bool {
+        let queueEmpty = columnCardRequests.count < 2
+        let readyToLoad = (repoList.projectLists[repo.id]?.columnLists[project.id]?.cardLists[column.id]?.loading ?? .loading) == .ready
+        return queueEmpty && readyToLoad
+    }
+    
     func shouldLoad(card: GithubProjectCard) -> Bool {
         let queueEmpty = cardRequests.count < 2
         let readyToLoad = !cardRequests.contains(card)
         let hasIssue = card.issueUrl != nil
-        return queueEmpty && readyToLoad && hasIssue
+        let loaded = cardIssues[card] != nil
+        return queueEmpty && readyToLoad && hasIssue && !loaded
     }
     
     func projectsListFor(repo: GithubRepo) -> [ListItem] {
@@ -167,6 +186,16 @@ struct GithubState: StateType {
     
     func columnsListFor(repo: GithubRepo, project: GithubProject) -> [ListItem] {
         return repoList.projectLists[repo.id]?.columnLists[project.id]?.items ?? []
+    }
+    
+    func columnCardListFor(repo: GithubRepo, project: GithubProject) -> [ListItem] {
+        var items: [ListItem] = []
+        let columnList = repoList.projectLists[repo.id]?.columnLists[project.id]
+        columnList?.cardLists.forEach { (columnId, cardList) in
+            items.append(ProjectColumnListItem(repo: repo, project: project, column: cardList.column))
+            items.append(contentsOf: cardList.items)
+        }
+        return items
     }
     
     func cardListFor(repo: GithubRepo, project: GithubProject, column: GithubProjectColumn) -> [ListItem] {
@@ -216,8 +245,10 @@ func githubReducer(action: Action, state: GithubState?) -> GithubState {
         
     case let action as ProjectColumnsLoadedAction:
         var list = state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id] ?? ProjectColumnsListState(repo: action.repo, project: action.project)
-
         list.columns = action.columns
+        action.columns.forEach {
+            list.cardLists[$0.id] = ProjectCardsListState(repo: action.repo, project: action.project, column: $0)
+        }
         list.loading = .done
         state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id] = list
     
@@ -230,6 +261,9 @@ func githubReducer(action: Action, state: GithubState?) -> GithubState {
         var list = state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id]?.cardLists[action.column.id] ?? ProjectCardsListState(repo: action.repo, project: action.project, column: action.column)
         list.cards = action.cards
         list.loading = .done
+        list.cards.forEach {
+            state.cardColumns[$0] = action.column.id
+        }
         state.repoList.projectLists[action.repo.id]?.columnLists[action.project.id]?.cardLists[action.column.id] = list
 
     case let action as LoadCardIssueAction:

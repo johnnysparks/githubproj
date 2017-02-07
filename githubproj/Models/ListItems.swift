@@ -83,10 +83,10 @@ struct ProjectColumnListItem: ListItem {
         self.project = project
         self.column = column
         
-        touchHandler = {
-            let vc = ProjectCardsViewController()
-            vc.set(repo: repo, project: project, column: column)
-            store.fire(PushNavigationAction(vc: vc))
+        displayHandler = {
+            if store.state.github.shouldLoad(cardsFor: column, project: project, repo: repo) {
+                store.fire(LoadCardsAction(repo: repo, project: project, column: column))
+            }
         }
     }
 }

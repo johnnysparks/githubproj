@@ -102,6 +102,7 @@ class ProjectColumnCell: CollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.backgroundColor = UIColor.brown
         label.textColor = UIColor.white
         contentView.addSubview(label)
     }
@@ -136,6 +137,7 @@ class ProjectCardCell: CollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.backgroundColor = UIColor.purple
         label.textColor = UIColor.white
         contentView.addSubview(label)
     }
